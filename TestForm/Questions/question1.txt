@@ -1,0 +1,17 @@
+0
+How many Purple Flowers can be found on the ginger island in Stardew Valley?
+6
+22
+21
+23
+24
+25
+26
+True
+False
+False
+False
+False
+False
+purple_flower.jpg
+1

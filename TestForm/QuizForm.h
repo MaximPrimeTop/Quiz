@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "StartForm.h";
+#include "StartForm.h"
 
 namespace quiz {
 
@@ -10,6 +10,7 @@ namespace quiz {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::IO;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -47,8 +48,22 @@ namespace quiz {
 	private: System::Windows::Forms::FlowLayoutPanel^ panelAnswers;
 	private: System::Windows::Forms::Panel^ panelQuiz;
 	private: System::Windows::Forms::Label^ labelQuestion;
-	private: System::Windows::Forms::Panel^ panelResult;
-	private: System::Windows::Forms::Label^ Score;
+
+
+	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::Label^ labelScore;
+	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::Label^ labelMaxScore;
+	private: System::Windows::Forms::Label^ labelScoreQuestion;
+
+	private: System::Windows::Forms::Label^ label2;
+	private: System::Windows::Forms::Label^ labelScoreMaxQuestion;
+
+
+
+
+
+
 
 
 
@@ -75,11 +90,16 @@ namespace quiz {
 			this->buttonHome = (gcnew System::Windows::Forms::Button());
 			this->panelAnswers = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->panelQuiz = (gcnew System::Windows::Forms::Panel());
+			this->labelScoreQuestion = (gcnew System::Windows::Forms::Label());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->labelScoreMaxQuestion = (gcnew System::Windows::Forms::Label());
+			this->labelScore = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->labelMaxScore = (gcnew System::Windows::Forms::Label());
 			this->labelQuestion = (gcnew System::Windows::Forms::Label());
-			this->panelResult = (gcnew System::Windows::Forms::Panel());
-			this->Score = (gcnew System::Windows::Forms::Label());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->panelQuiz->SuspendLayout();
-			this->panelResult->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// buttonNext
@@ -88,7 +108,7 @@ namespace quiz {
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
 			this->buttonNext->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->buttonNext->Font = (gcnew System::Drawing::Font(L"Papyrus", 45));
-			this->buttonNext->Location = System::Drawing::Point(800, 500);
+			this->buttonNext->Location = System::Drawing::Point(1040, 500);
 			this->buttonNext->Name = L"buttonNext";
 			this->buttonNext->Size = System::Drawing::Size(200, 100);
 			this->buttonNext->TabIndex = 1;
@@ -117,7 +137,7 @@ namespace quiz {
 			this->buttonConfirm->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->buttonConfirm->Font = (gcnew System::Drawing::Font(L"Papyrus", 30.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->buttonConfirm->Location = System::Drawing::Point(400, 500);
+			this->buttonConfirm->Location = System::Drawing::Point(520, 500);
 			this->buttonConfirm->Name = L"buttonConfirm";
 			this->buttonConfirm->Size = System::Drawing::Size(200, 100);
 			this->buttonConfirm->TabIndex = 3;
@@ -143,62 +163,136 @@ namespace quiz {
 			// panelAnswers
 			// 
 			this->panelAnswers->AutoScroll = true;
-			this->panelAnswers->BackColor = System::Drawing::Color::White;
+			this->panelAnswers->BackColor = System::Drawing::Color::Transparent;
 			this->panelAnswers->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
 			this->panelAnswers->ForeColor = System::Drawing::Color::Transparent;
 			this->panelAnswers->Location = System::Drawing::Point(0, 150);
 			this->panelAnswers->Name = L"panelAnswers";
-			this->panelAnswers->Size = System::Drawing::Size(1000, 350);
+			this->panelAnswers->Size = System::Drawing::Size(823, 350);
 			this->panelAnswers->TabIndex = 0;
 			// 
 			// panelQuiz
 			// 
 			this->panelQuiz->BackColor = System::Drawing::Color::White;
-			this->panelQuiz->Controls->Add(this->buttonConfirm);
-			this->panelQuiz->Controls->Add(this->buttonBack);
-			this->panelQuiz->Controls->Add(this->buttonNext);
-			this->panelQuiz->Controls->Add(this->panelAnswers);
+			this->panelQuiz->Controls->Add(this->labelScoreQuestion);
+			this->panelQuiz->Controls->Add(this->label2);
+			this->panelQuiz->Controls->Add(this->labelScoreMaxQuestion);
+			this->panelQuiz->Controls->Add(this->labelScore);
+			this->panelQuiz->Controls->Add(this->label3);
+			this->panelQuiz->Controls->Add(this->labelMaxScore);
 			this->panelQuiz->Controls->Add(this->labelQuestion);
-			this->panelQuiz->Location = System::Drawing::Point(12, 50);
+			this->panelQuiz->Controls->Add(this->pictureBox1);
+			this->panelQuiz->Controls->Add(this->panelAnswers);
+			this->panelQuiz->Controls->Add(this->buttonBack);
+			this->panelQuiz->Controls->Add(this->buttonConfirm);
+			this->panelQuiz->Controls->Add(this->buttonNext);
+			this->panelQuiz->Location = System::Drawing::Point(10, 50);
 			this->panelQuiz->Name = L"panelQuiz";
-			this->panelQuiz->Size = System::Drawing::Size(1000, 600);
+			this->panelQuiz->Size = System::Drawing::Size(1240, 600);
 			this->panelQuiz->TabIndex = 5;
+			// 
+			// labelScoreQuestion
+			// 
+			this->labelScoreQuestion->AutoSize = true;
+			this->labelScoreQuestion->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
+			this->labelScoreQuestion->Location = System::Drawing::Point(829, 389);
+			this->labelScoreQuestion->MaximumSize = System::Drawing::Size(100, 40);
+			this->labelScoreQuestion->MinimumSize = System::Drawing::Size(100, 40);
+			this->labelScoreQuestion->Name = L"labelScoreQuestion";
+			this->labelScoreQuestion->Size = System::Drawing::Size(100, 40);
+			this->labelScoreQuestion->TabIndex = 8;
+			this->labelScoreQuestion->Text = L"0";
+			this->labelScoreQuestion->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
+			this->label2->Location = System::Drawing::Point(834, 399);
+			this->label2->MaximumSize = System::Drawing::Size(100, 40);
+			this->label2->MinimumSize = System::Drawing::Size(100, 40);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(100, 40);
+			this->label2->TabIndex = 10;
+			this->label2->Text = L"_________";
+			// 
+			// labelScoreMaxQuestion
+			// 
+			this->labelScoreMaxQuestion->AutoSize = true;
+			this->labelScoreMaxQuestion->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
+			this->labelScoreMaxQuestion->Location = System::Drawing::Point(829, 429);
+			this->labelScoreMaxQuestion->MaximumSize = System::Drawing::Size(100, 40);
+			this->labelScoreMaxQuestion->MinimumSize = System::Drawing::Size(100, 40);
+			this->labelScoreMaxQuestion->Name = L"labelScoreMaxQuestion";
+			this->labelScoreMaxQuestion->Size = System::Drawing::Size(100, 40);
+			this->labelScoreMaxQuestion->TabIndex = 9;
+			this->labelScoreMaxQuestion->Text = L"10";
+			this->labelScoreMaxQuestion->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			// 
+			// labelScore
+			// 
+			this->labelScore->AutoSize = true;
+			this->labelScore->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
+			this->labelScore->Location = System::Drawing::Point(1108, 389);
+			this->labelScore->MaximumSize = System::Drawing::Size(100, 40);
+			this->labelScore->MinimumSize = System::Drawing::Size(100, 40);
+			this->labelScore->Name = L"labelScore";
+			this->labelScore->Size = System::Drawing::Size(100, 40);
+			this->labelScore->TabIndex = 5;
+			this->labelScore->Text = L"0";
+			this->labelScore->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
+			this->label3->Location = System::Drawing::Point(1113, 399);
+			this->label3->MaximumSize = System::Drawing::Size(100, 40);
+			this->label3->MinimumSize = System::Drawing::Size(100, 40);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(100, 40);
+			this->label3->TabIndex = 7;
+			this->label3->Text = L"_________";
+			// 
+			// labelMaxScore
+			// 
+			this->labelMaxScore->AutoSize = true;
+			this->labelMaxScore->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
+			this->labelMaxScore->Location = System::Drawing::Point(1108, 429);
+			this->labelMaxScore->MaximumSize = System::Drawing::Size(100, 40);
+			this->labelMaxScore->MinimumSize = System::Drawing::Size(100, 40);
+			this->labelMaxScore->Name = L"labelMaxScore";
+			this->labelMaxScore->Size = System::Drawing::Size(100, 40);
+			this->labelMaxScore->TabIndex = 6;
+			this->labelMaxScore->Text = L"10";
+			this->labelMaxScore->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// labelQuestion
 			// 
-			this->labelQuestion->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 27.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
+			this->labelQuestion->BackColor = System::Drawing::Color::Transparent;
+			this->labelQuestion->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 24));
 			this->labelQuestion->Location = System::Drawing::Point(20, 20);
 			this->labelQuestion->Name = L"labelQuestion";
-			this->labelQuestion->Size = System::Drawing::Size(960, 120);
+			this->labelQuestion->Size = System::Drawing::Size(803, 120);
 			this->labelQuestion->TabIndex = 0;
 			this->labelQuestion->Text = L"Philosophical question";
 			// 
-			// panelResult
+			// pictureBox1
 			// 
-			this->panelResult->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
-				static_cast<System::Int32>(static_cast<System::Byte>(224)));
-			this->panelResult->Controls->Add(this->Score);
-			this->panelResult->Location = System::Drawing::Point(1018, 50);
-			this->panelResult->Name = L"panelResult";
-			this->panelResult->Size = System::Drawing::Size(232, 500);
-			this->panelResult->TabIndex = 6;
-			// 
-			// Score
-			// 
-			this->Score->AutoSize = true;
-			this->Score->Location = System::Drawing::Point(12, 13);
-			this->Score->Name = L"Score";
-			this->Score->Size = System::Drawing::Size(35, 13);
-			this->Score->TabIndex = 0;
-			this->Score->Text = L"label1";
+			this->pictureBox1->BackColor = System::Drawing::Color::Transparent;
+			this->pictureBox1->Location = System::Drawing::Point(829, 20);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(389, 339);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox1->TabIndex = 4;
+			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Visible = false;
 			// 
 			// QuizForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1264, 681);
-			this->Controls->Add(this->panelResult);
 			this->Controls->Add(this->buttonHome);
 			this->Controls->Add(this->panelQuiz);
 			this->Name = L"QuizForm";
@@ -207,8 +301,8 @@ namespace quiz {
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &QuizForm::Close);
 			this->Load += gcnew System::EventHandler(this, &QuizForm::QuizForm_Load);
 			this->panelQuiz->ResumeLayout(false);
-			this->panelResult->ResumeLayout(false);
-			this->panelResult->PerformLayout();
+			this->panelQuiz->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
 
 		}
@@ -228,13 +322,13 @@ namespace quiz {
 			array<String^>^ Answers;
 			int AnswerAmount;
 			bool isAnswered = false;
-			bool hasImage = true;
 			int Score;
+			int userScore = 0;
 			bool isSaved = false;
 			array<bool>^ UserAnswers;
+			String^ ImageName = "";
 		private:
 			array<bool>^ CorrectAnswers;
-			String^ ImageName;
 		public:
 			Question(QuestionType type, String^ questionText, array<String^>^ answers, int answerAmount, array<bool>^ correctAnswers, String^ imageName, int score)
 			{
@@ -244,23 +338,67 @@ namespace quiz {
 				AnswerAmount = answerAmount;
 				CorrectAnswers = correctAnswers;
 				Score = score;
-				if (imageName == "")
-					hasImage = false;
-				else
-					ImageName = imageName;
+				ImageName = imageName;
 			}
 
-			bool CheckAnswers(array<bool>^ answers)
+			Question(String^ filename) 
 			{
+				StreamReader^ reader = gcnew StreamReader("Questions\\" + filename);
+				Type = (QuestionType)Convert::ToInt16(reader->ReadLine());
+				QuestionText = reader->ReadLine();
+				AnswerAmount = Convert::ToInt16(reader->ReadLine());
+				Answers = gcnew array<String^>(AnswerAmount);
 				for (int i = 0; i < AnswerAmount; i++)
-					if (CorrectAnswers[i] != answers[i])
-						return false;
-				return true;
+					Answers[i] = reader->ReadLine();
+				CorrectAnswers = gcnew array<bool>(AnswerAmount);
+				for (int i = 0; i < AnswerAmount; i++)
+					CorrectAnswers[i] = Convert::ToBoolean(reader->ReadLine());
+				ImageName = reader->ReadLine();
+				Score = Convert::ToInt16(reader->ReadLine());
+			}
+
+			void QuestionToFile(String^ filename)
+			{
+				StreamWriter^ writer = gcnew StreamWriter("Questions\\" + filename);
+				writer->WriteLine((int)Type);
+				writer->WriteLine(QuestionText);
+				writer->WriteLine(AnswerAmount);
+				for (int i = 0; i < AnswerAmount; i++)
+					writer->WriteLine(Answers[i]);
+				for (int i = 0; i < AnswerAmount; i++)
+					writer->WriteLine(CorrectAnswers[i]);
+				writer->WriteLine(ImageName);
+				writer->WriteLine(Score);
+				writer->Close();
+			}
+
+			int CheckAnswers(array<bool>^ answers)
+			{
+				int sumAnswer = 0, sumCorrect = 0;
+				for (int i = 0; i < AnswerAmount; i++)
+				{
+					if (CorrectAnswers[i] && answers[i])
+					{
+						sumAnswer++;
+						sumCorrect++;
+					}
+					else if (answers[i])
+						sumCorrect++;
+				}
+
+				return (int)(Score * sumAnswer / sumCorrect);
 			}
 
 			void SaveMarkedAnswers(array<bool>^ answers)
 			{
-				UserAnswers = answers;
+				for (int i = 0; i < answers->Length; i++)
+					if (answers[i])
+					{
+						isSaved = true;
+						UserAnswers = answers;
+						return;
+					}
+				isSaved = false;
 			}
 
 			void MarkCorrectAnswers(array<RadioButton^>^ singleChoiceButtons)
@@ -303,10 +441,12 @@ namespace quiz {
 		int QuestionAmount;
 		array<RadioButton^>^ SingleChoiceButtons;
 		array<CheckBox^>^ MultipleChoiceButtons;
+		int Score = 0, maxScore = 0;
 	
 private: void LoadQuestion(int questionIndex)
 	{
 		Question^ question = Questions[questionIndex];
+		buttonConfirm->Enabled = question->isSaved;
 		panelAnswers->Controls->Clear();
 		if (question->Type == QuestionType::SingleChoice && (SingleChoiceButtons == nullptr || SingleChoiceButtons->Length != Questions[questionIndex]->AnswerAmount))
 			SingleChoiceButtons = gcnew array<RadioButton^>(Questions[questionIndex]->AnswerAmount);
@@ -315,6 +455,17 @@ private: void LoadQuestion(int questionIndex)
 
 		int N = question->AnswerAmount;
 		labelQuestion->Text = question->QuestionText;
+		labelScoreQuestion->Text = Convert::ToString(question->userScore);
+		labelScoreMaxQuestion->Text = Convert::ToString(question->Score);
+		if (question->ImageName != "" && File::Exists("Images\\" + question->ImageName))
+		{
+			pictureBox1->Image = Image::FromFile("Images\\" + question->ImageName);
+			pictureBox1->Visible = true;
+		}
+		else
+		{
+			pictureBox1->Visible = false;
+		}
 		if (question->Type == QuestionType::SingleChoice)
 		{
 			for (int i = 0; i < N; i++)
@@ -322,8 +473,9 @@ private: void LoadQuestion(int questionIndex)
 				SingleChoiceButtons[i] = gcnew RadioButton;
 				SingleChoiceButtons[i]->AutoSize = true;
 				SingleChoiceButtons[i]->ForeColor = Color::Black;
-				SingleChoiceButtons[i]->Font = gcnew System::Drawing::Font("Microsoft Sans Serif", 24);
+				SingleChoiceButtons[i]->Font = gcnew System::Drawing::Font("Comic Sans MS", 20);
 				SingleChoiceButtons[i]->Text = question->Answers[i];
+				SingleChoiceButtons[i]->Click += gcnew System::EventHandler(this, &QuizForm::radioButton_Click);
 				if (question->isSaved)
 					SingleChoiceButtons[i]->Checked = question->UserAnswers[i];
 				panelAnswers->Controls->Add(SingleChoiceButtons[i]);
@@ -338,8 +490,9 @@ private: void LoadQuestion(int questionIndex)
 				MultipleChoiceButtons[i] = gcnew CheckBox;
 				MultipleChoiceButtons[i]->AutoSize = true;
 				MultipleChoiceButtons[i]->ForeColor = Color::Black;
-				MultipleChoiceButtons[i]->Font = gcnew System::Drawing::Font("Microsoft Sans Serif", 24);
+				MultipleChoiceButtons[i]->Font = gcnew System::Drawing::Font("Comic Sans MS", 20);
 				MultipleChoiceButtons[i]->Text = question->Answers[i];
+				MultipleChoiceButtons[i]->Click += gcnew System::EventHandler(this, &QuizForm::checkbox_Click);
 				if (question->isSaved)
 					MultipleChoiceButtons[i]->Checked = question->UserAnswers[i];
 				panelAnswers->Controls->Add(MultipleChoiceButtons[i]);
@@ -347,24 +500,26 @@ private: void LoadQuestion(int questionIndex)
 			if (question->isAnswered)
 				question->MarkCorrectAnswers(MultipleChoiceButtons);
 		}
+		if (question->isAnswered)
+			buttonConfirm->Enabled = false;
 	}
 
 	private: System::Void QuizForm_Load(System::Object^ sender, System::EventArgs^ e) 
 	{
-		// this is just for testing without files
-		Questions = gcnew array<Question^>
+		array<String^>^ QuestionFiles = Directory::GetFiles("Questions");
+		Questions = gcnew array<Question^>(QuestionFiles->Length);
+		for (int i = 0; i < QuestionFiles->Length; i++)
 		{
-			gcnew Question(QuestionType::SingleChoice, "How many Purple Flowers can be found on the ginger island in Stardew Valley?", gcnew array<String^> {"22", "21", "23", "24", "25", "26"}, 6, gcnew array<bool> {true, false, false, false, false, false}, "purple_flowers.jpg", 1),
-			gcnew Question(QuestionType::SingleChoice, "What is love?", gcnew array<String^> {"emotion", "baby dont hurt me dont hurt me no more"}, 2, gcnew array<bool> {false, true}, "", 1),
-			gcnew Question(QuestionType::MultipleChoice, "Choose only correct statements.", gcnew array<String^> {"this year is 3026", "the creator of this quiz is cool", "Coding is literally the best thing ever", "uhhhh i dunno what to type here pretend this is wrong"}, 4, gcnew array<bool> {false, true, true, false}, "", 1)
-		};
+			Questions[i] = gcnew Question(Path::GetFileName(QuestionFiles[i]));
+			maxScore += Questions[i]->Score;
+		}
+		labelMaxScore->Text = Convert::ToString(maxScore);
 		LoadQuestion(0);
 	}
 
 	private: void SaveAnswers()
 	{
 		Question^ question = Questions[CurrentQuestion];
-		question->isSaved = true;
 		array<bool>^ answers = gcnew array<bool>(question->AnswerAmount);
 		for (int i = 0; i < question->AnswerAmount; i++)
 		{
@@ -394,6 +549,23 @@ private: void LoadQuestion(int questionIndex)
 			LoadQuestion(CurrentQuestion);
 		}
 	}
+
+	private: System::Void radioButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		buttonConfirm->Enabled = true;
+	}
+
+	private: System::Void checkbox_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		for (int i = 0; i < MultipleChoiceButtons->Length; i++)
+			if (MultipleChoiceButtons[i]->Checked)
+			{
+				buttonConfirm->Enabled = true;
+				return;
+			}
+		buttonConfirm->Enabled = false;
+	}
+
 	private: System::Void Close(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) 
 	{
 		Application::Exit();
@@ -409,19 +581,16 @@ private: void LoadQuestion(int questionIndex)
 		if (question->isAnswered)
 			return;
 		SaveAnswers();
-		if (question->CheckAnswers(question->UserAnswers))
-		{
-			//count score
-		}
-		else
-		{
-			//count score differently
-		}
+		question->userScore = question->CheckAnswers(question->UserAnswers);
+		Score += question->userScore;
+		labelScoreQuestion->Text = Convert::ToString(question->userScore);
+		labelScore->Text = Convert::ToString(Score);
 		question->isAnswered = true;
 		if (question->Type == QuestionType::SingleChoice)
 			question->MarkCorrectAnswers(SingleChoiceButtons);
 		else
 			question->MarkCorrectAnswers(MultipleChoiceButtons);
+		buttonConfirm->Enabled = false;
 	}
 };
 }

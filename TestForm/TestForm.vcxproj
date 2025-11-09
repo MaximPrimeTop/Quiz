@@ -29,6 +29,9 @@
     <ClCompile Include="TheForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DebugForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="StartForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -37,6 +40,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DebugForm.resx">
+      <DependentUpon>DebugForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="QuizForm.resx">
       <DependentUpon>QuizForm.h</DependentUpon>
     </EmbeddedResource>

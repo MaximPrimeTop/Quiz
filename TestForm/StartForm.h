@@ -1,6 +1,7 @@
 #pragma once
 
-#include "QuizForm.h";
+#include "QuizForm.h"
+#include "DebugForm.h"
 namespace quiz {
 
 	using namespace System;
@@ -37,9 +38,10 @@ namespace quiz {
 		}
 	private: System::Windows::Forms::Label^ StartText;
 	private: System::Windows::Forms::Button^ buttonStart;
-	private: System::Windows::Forms::Button^ buttonDebug;
+
 	private: System::Windows::Forms::Timer^ timer1;
 	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Button^ buttonDebug;
 	private: System::ComponentModel::IContainer^ components;
 
 
@@ -60,9 +62,9 @@ namespace quiz {
 			this->components = (gcnew System::ComponentModel::Container());
 			this->StartText = (gcnew System::Windows::Forms::Label());
 			this->buttonStart = (gcnew System::Windows::Forms::Button());
-			this->buttonDebug = (gcnew System::Windows::Forms::Button());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->buttonDebug = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// StartText
@@ -81,40 +83,41 @@ namespace quiz {
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
 			this->buttonStart->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->buttonStart->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 60));
-			this->buttonStart->Location = System::Drawing::Point(434, 152);
+			this->buttonStart->Location = System::Drawing::Point(400, 200);
 			this->buttonStart->Name = L"buttonStart";
-			this->buttonStart->Size = System::Drawing::Size(337, 148);
+			this->buttonStart->Size = System::Drawing::Size(400, 200);
 			this->buttonStart->TabIndex = 2;
 			this->buttonStart->Text = L"Start";
 			this->buttonStart->UseVisualStyleBackColor = false;
 			this->buttonStart->Click += gcnew System::EventHandler(this, &StartForm::buttonStart_Click);
 			// 
-			// buttonDebug
-			// 
-			this->buttonDebug->BackColor = System::Drawing::Color::Purple;
-			this->buttonDebug->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->buttonDebug->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 60));
-			this->buttonDebug->Location = System::Drawing::Point(474, 271);
-			this->buttonDebug->Name = L"buttonDebug";
-			this->buttonDebug->Size = System::Drawing::Size(337, 148);
-			this->buttonDebug->TabIndex = 3;
-			this->buttonDebug->Text = L"Debug";
-			this->buttonDebug->UseVisualStyleBackColor = false;
-			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(945, 363);
+			this->label1->Location = System::Drawing::Point(1187, 276);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(29, 13);
 			this->label1->TabIndex = 4;
 			this->label1->Text = L"timer";
 			// 
+			// buttonDebug
+			// 
+			this->buttonDebug->BackColor = System::Drawing::Color::DarkViolet;
+			this->buttonDebug->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->buttonDebug->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 60));
+			this->buttonDebug->Location = System::Drawing::Point(928, 461);
+			this->buttonDebug->Name = L"buttonDebug";
+			this->buttonDebug->Size = System::Drawing::Size(310, 119);
+			this->buttonDebug->TabIndex = 5;
+			this->buttonDebug->Text = L"Debug";
+			this->buttonDebug->UseVisualStyleBackColor = false;
+			this->buttonDebug->Click += gcnew System::EventHandler(this, &StartForm::buttonDebug_Click);
+			// 
 			// StartForm
 			// 
 			this->ClientSize = System::Drawing::Size(1264, 681);
-			this->Controls->Add(this->label1);
 			this->Controls->Add(this->buttonDebug);
+			this->Controls->Add(this->label1);
 			this->Controls->Add(this->buttonStart);
 			this->Controls->Add(this->StartText);
 			this->Name = L"StartForm";
@@ -125,7 +128,9 @@ namespace quiz {
 
 		}
 #pragma endregion
-	private: QuizForm^ quiz;
+	private: 
+		QuizForm^ quiz;
+		DebugForm^ debug;
 	public: static bool isStarted = false;
 	private: System::Void buttonStart_Click(System::Object^ sender, System::EventArgs^ e) 
 	{
@@ -141,6 +146,13 @@ namespace quiz {
 	{
 		if (isStarted)
 			buttonStart->Text = "Continue";
+	}
+	private: System::Void buttonDebug_Click(System::Object^ sender, System::EventArgs^ e) 
+	{
+		if (debug == nullptr)
+			debug = gcnew DebugForm(this);
+		this->Hide();
+		debug->Show();
 	}
 };
 }

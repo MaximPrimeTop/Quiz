@@ -1,0 +1,11 @@
+0
+Which programming language is the best?
+3
+C++
+C#
+Pascal
+False
+True
+False
+
+1

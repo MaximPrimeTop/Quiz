@@ -163,17 +163,19 @@ namespace quiz {
 			// panelAnswers
 			// 
 			this->panelAnswers->AutoScroll = true;
-			this->panelAnswers->BackColor = System::Drawing::Color::Transparent;
+			this->panelAnswers->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->panelAnswers->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
 			this->panelAnswers->ForeColor = System::Drawing::Color::Transparent;
-			this->panelAnswers->Location = System::Drawing::Point(0, 150);
+			this->panelAnswers->Location = System::Drawing::Point(0, 178);
 			this->panelAnswers->Name = L"panelAnswers";
-			this->panelAnswers->Size = System::Drawing::Size(823, 350);
+			this->panelAnswers->Size = System::Drawing::Size(823, 322);
 			this->panelAnswers->TabIndex = 0;
 			// 
 			// panelQuiz
 			// 
 			this->panelQuiz->BackColor = System::Drawing::Color::White;
+			this->panelQuiz->Controls->Add(this->panelAnswers);
 			this->panelQuiz->Controls->Add(this->labelScoreQuestion);
 			this->panelQuiz->Controls->Add(this->label2);
 			this->panelQuiz->Controls->Add(this->labelScoreMaxQuestion);
@@ -182,7 +184,6 @@ namespace quiz {
 			this->panelQuiz->Controls->Add(this->labelMaxScore);
 			this->panelQuiz->Controls->Add(this->labelQuestion);
 			this->panelQuiz->Controls->Add(this->pictureBox1);
-			this->panelQuiz->Controls->Add(this->panelAnswers);
 			this->panelQuiz->Controls->Add(this->buttonBack);
 			this->panelQuiz->Controls->Add(this->buttonConfirm);
 			this->panelQuiz->Controls->Add(this->buttonNext);
@@ -269,20 +270,21 @@ namespace quiz {
 			// 
 			// labelQuestion
 			// 
-			this->labelQuestion->BackColor = System::Drawing::Color::Transparent;
+			this->labelQuestion->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
 			this->labelQuestion->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 24));
-			this->labelQuestion->Location = System::Drawing::Point(20, 20);
+			this->labelQuestion->Location = System::Drawing::Point(0, 0);
 			this->labelQuestion->Name = L"labelQuestion";
-			this->labelQuestion->Size = System::Drawing::Size(803, 120);
+			this->labelQuestion->Size = System::Drawing::Size(823, 189);
 			this->labelQuestion->TabIndex = 0;
 			this->labelQuestion->Text = L"Philosophical question";
 			// 
 			// pictureBox1
 			// 
 			this->pictureBox1->BackColor = System::Drawing::Color::Transparent;
-			this->pictureBox1->Location = System::Drawing::Point(829, 20);
+			this->pictureBox1->Location = System::Drawing::Point(829, 3);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(389, 339);
+			this->pictureBox1->Size = System::Drawing::Size(396, 356);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pictureBox1->TabIndex = 4;
 			this->pictureBox1->TabStop = false;
@@ -292,6 +294,8 @@ namespace quiz {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(192)));
 			this->ClientSize = System::Drawing::Size(1264, 681);
 			this->Controls->Add(this->buttonHome);
 			this->Controls->Add(this->panelQuiz);
@@ -434,6 +438,22 @@ namespace quiz {
 						multipleChoiceButtons[i]->BackColor = Color::Green;
 				}
 			}
+
+			void randomizeAnswers()
+			{
+				Random^ rnd = gcnew Random();
+				for (int i = 0; i < 100; i++)
+				{
+					int j = rnd->Next(0, AnswerAmount);
+					int k = rnd->Next(0, AnswerAmount);
+					String^ tempAnswer = Answers[k];
+					Answers[k] = Answers[j];
+					Answers[j] = tempAnswer;
+					bool tempCorrect = CorrectAnswers[k];
+					CorrectAnswers[k] = CorrectAnswers[j];
+					CorrectAnswers[j] = tempCorrect;
+				}
+			}
 	};
 	private: 
 		array<Question^>^ Questions;
@@ -442,7 +462,8 @@ namespace quiz {
 		array<RadioButton^>^ SingleChoiceButtons;
 		array<CheckBox^>^ MultipleChoiceButtons;
 		int Score = 0, maxScore = 0;
-	
+		Random^ rnd = gcnew Random();
+
 private: void LoadQuestion(int questionIndex)
 	{
 		Question^ question = Questions[questionIndex];
@@ -504,6 +525,17 @@ private: void LoadQuestion(int questionIndex)
 			buttonConfirm->Enabled = false;
 	}
 
+	private: void randomizeQuestions()
+	{
+		for (int i = 0; i < Questions->Length; i++)
+		{
+			int j = rnd->Next(0, Questions->Length);
+			Question^ temp = Questions[i];
+			Questions[i] = Questions[j];
+			Questions[j] = temp;
+		}
+	}
+
 	private: System::Void QuizForm_Load(System::Object^ sender, System::EventArgs^ e) 
 	{
 		array<String^>^ QuestionFiles = Directory::GetFiles("Questions");
@@ -512,7 +544,9 @@ private: void LoadQuestion(int questionIndex)
 		{
 			Questions[i] = gcnew Question(Path::GetFileName(QuestionFiles[i]));
 			maxScore += Questions[i]->Score;
+			Questions[i]->randomizeAnswers();
 		}
+		randomizeQuestions();
 		labelMaxScore->Text = Convert::ToString(maxScore);
 		LoadQuestion(0);
 	}

@@ -106,6 +106,7 @@ namespace quiz {
 			// radioButtonSingle
 			// 
 			this->radioButtonSingle->AutoSize = true;
+			this->radioButtonSingle->Checked = true;
 			this->radioButtonSingle->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 20));
 			this->radioButtonSingle->Location = System::Drawing::Point(28, 9);
 			this->radioButtonSingle->Name = L"radioButtonSingle";
@@ -195,7 +196,7 @@ namespace quiz {
 			this->flowLayoutPanel1->Controls->Add(this->textBox3);
 			this->flowLayoutPanel1->Location = System::Drawing::Point(20, 221);
 			this->flowLayoutPanel1->Name = L"flowLayoutPanel1";
-			this->flowLayoutPanel1->Size = System::Drawing::Size(803, 448);
+			this->flowLayoutPanel1->Size = System::Drawing::Size(723, 448);
 			this->flowLayoutPanel1->TabIndex = 9;
 			// 
 			// textBox3
@@ -264,9 +265,9 @@ namespace quiz {
 			this->button2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
 			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 50));
-			this->button2->Location = System::Drawing::Point(829, 367);
+			this->button2->Location = System::Drawing::Point(749, 367);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(423, 302);
+			this->button2->Size = System::Drawing::Size(503, 302);
 			this->button2->TabIndex = 15;
 			this->button2->Text = L"GENERATE FILE";
 			this->button2->UseVisualStyleBackColor = false;

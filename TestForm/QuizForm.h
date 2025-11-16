@@ -312,6 +312,10 @@ namespace quiz {
 		}
 #pragma endregion
 
+	private: ref struct ss
+	{
+
+	};
 	private: enum class QuestionType
 	{
 		SingleChoice,
@@ -347,7 +351,7 @@ namespace quiz {
 
 			Question(String^ filename) 
 			{
-				StreamReader^ reader = gcnew StreamReader("Questions\\" + filename);
+				StreamReader^ reader = gcnew StreamReader(filename);
 				Type = (QuestionType)Convert::ToInt16(reader->ReadLine());
 				QuestionText = reader->ReadLine();
 				AnswerAmount = Convert::ToInt16(reader->ReadLine());
@@ -363,7 +367,7 @@ namespace quiz {
 
 			void QuestionToFile(String^ filename)
 			{
-				StreamWriter^ writer = gcnew StreamWriter("Questions\\" + filename);
+				StreamWriter^ writer = gcnew StreamWriter(filename);
 				writer->WriteLine((int)Type);
 				writer->WriteLine(QuestionText);
 				writer->WriteLine(AnswerAmount);
@@ -542,7 +546,7 @@ private: void LoadQuestion(int questionIndex)
 		Questions = gcnew array<Question^>(QuestionFiles->Length);
 		for (int i = 0; i < QuestionFiles->Length; i++)
 		{
-			Questions[i] = gcnew Question(Path::GetFileName(QuestionFiles[i]));
+			Questions[i] = gcnew Question(QuestionFiles[i]);
 			maxScore += Questions[i]->Score;
 			Questions[i]->randomizeAnswers();
 		}

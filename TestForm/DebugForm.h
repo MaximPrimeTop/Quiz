@@ -340,8 +340,18 @@ namespace quiz {
 
 	private: void GenerateQuestionFile()
 	{
-		array<String^>^ QuestionFiles = Directory::GetFiles("Questions");
-		StreamWriter^ writer = gcnew StreamWriter("Questions\\" + "question" + (QuestionFiles->Length + 1) + ".txt");
+		array<String^>^ QuestionFiles = Directory::GetFiles("Questions", "*.txt");
+		String^ tempFolder = "Questions\\temp";
+		if (Directory::Exists(tempFolder))
+			Directory::Delete(tempFolder, true);
+		Directory::CreateDirectory(tempFolder);
+		for (int i = 0; i < QuestionFiles->Length; i++)
+			File::Move(QuestionFiles[i], Path::Combine(tempFolder, "question" + (i + 1) + ".txt"));
+		array<String^>^ tempFiles = Directory::GetFiles(tempFolder, "*.txt");
+		for (int i = 0; i < tempFiles->Length; i++)
+			File::Move(tempFiles[i], Path::Combine("Questions", "question" + (i + 1) + ".txt"));
+		Directory::Delete(tempFolder);
+		StreamWriter^ writer = gcnew StreamWriter("Questions\\" + "question" + QuestionFiles->Length + ".txt");
 		writer->WriteLine((int)radioButtonMultiple->Checked);
 		writer->WriteLine(textBoxQuestion->Text);
 		writer->WriteLine(answerAmount);

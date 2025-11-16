@@ -1,17 +1,13 @@
 0
-How many Purple Flowers can be found on the ginger island in Stardew Valley?
+In the question about the Whip in Vampire Survivors how many answers were there?
+4
+5
 6
-22
-21
-23
-24
-25
-26
+7
+8
+False
+False
+False
 True
-False
-False
-False
-False
-False
-purple_flower.jpg
-3
+
+1

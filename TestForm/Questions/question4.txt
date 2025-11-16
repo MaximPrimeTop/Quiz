@@ -1,21 +1,13 @@
 0
-In Vampire Survivors what do you need to evolve the Whip into the Bloody Tear?
-8
-Spinach
-Tirajisú
-Skull O'Maniac
-Bracer
-Hollow Heart
-Wings
-Candelabrador
-Duplicator
-False
-False
-False
+Who is the main character in Sonic the Hedgehog?
+4
+Tails "Miles" Prowler
+Sonic the Hedgehog
+Knuckles the Echidna
+Amy Rose
 False
 True
 False
 False
-False
-whip.png
-3
+sonic.png
+1

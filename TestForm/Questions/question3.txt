@@ -1,13 +1,21 @@
+0
+In Vampire Survivors what do you need to evolve the Whip into the Bloody Tear?
+8
+Spinach
+Tirajisú
+Skull O'Maniac
+Bracer
+Hollow Heart
+Wings
+Candelabrador
+Duplicator
+False
+False
+False
+False
+True
+False
+False
+False
+whip.png
 1
-Choose only correct statements.
-4
-this year is 3026
-the creator of this quiz is cool
-Coding is literally the best thing ever
-uhhhh i dunno what to type here pretend this is wrong
-False
-True
-True
-False
-
-2

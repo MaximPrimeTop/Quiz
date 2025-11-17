@@ -390,7 +390,7 @@ namespace quiz {
 						sumAnswer++;
 						sumCorrect++;
 					}
-					else if (answers[i])
+					else if (CorrectAnswers[i])
 						sumCorrect++;
 				}
 

@@ -1,13 +1,11 @@
 0
-How much time did Yegor spend not watching brainrot
-4
-4 days
-1 week
-67 minutes
-1488 hours
+Which programming language is the best?
+3
+C++
+C#
+Pascal
 False
 True
 False
-False
-yegor.jpg
+
 1

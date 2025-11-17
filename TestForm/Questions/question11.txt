@@ -1,0 +1,19 @@
+1
+Which elements are present in the game Crosscode
+7
+Heat
+Water
+Cold
+Shock
+Wave
+Earth
+Air
+True
+False
+True
+True
+True
+False
+False
+crosscode.jpg
+4

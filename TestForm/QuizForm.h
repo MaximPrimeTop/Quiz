@@ -2,7 +2,7 @@
 
 #include "StartForm.h"
 
-namespace quiz {
+namespace Quiz {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -18,12 +18,22 @@ namespace quiz {
 	public ref class QuizForm : public System::Windows::Forms::Form
 	{
 	private: Form^ StartInstance;
+	private: System::Windows::Forms::Timer^ timerQuiz;
+	private: System::Windows::Forms::Label^ labelTimer;
+		   int TimeLeft;
+		   bool ShowCorrectAnswers;
+		   bool IsFolder;
+		   String^ Filepath;
 	public:
 		
-		QuizForm(Form^ startInstance)
+		QuizForm(Form^ startInstance, int timeLeft, bool showCorrectAnswers, bool isFolder, String^ filepath)
 		{
 			InitializeComponent();
 			StartInstance = startInstance;
+			TimeLeft = timeLeft;
+			ShowCorrectAnswers = showCorrectAnswers;
+			IsFolder = isFolder;
+			Filepath = filepath;
 		}
 
 	protected:
@@ -58,6 +68,7 @@ namespace quiz {
 
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Label^ labelScoreMaxQuestion;
+	private: System::ComponentModel::IContainer^ components;
 
 
 
@@ -75,7 +86,7 @@ namespace quiz {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -84,6 +95,7 @@ namespace quiz {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->buttonNext = (gcnew System::Windows::Forms::Button());
 			this->buttonBack = (gcnew System::Windows::Forms::Button());
 			this->buttonConfirm = (gcnew System::Windows::Forms::Button());
@@ -98,6 +110,8 @@ namespace quiz {
 			this->labelMaxScore = (gcnew System::Windows::Forms::Label());
 			this->labelQuestion = (gcnew System::Windows::Forms::Label());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->timerQuiz = (gcnew System::Windows::Forms::Timer(this->components));
+			this->labelTimer = (gcnew System::Windows::Forms::Label());
 			this->panelQuiz->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
@@ -290,6 +304,23 @@ namespace quiz {
 			this->pictureBox1->TabStop = false;
 			this->pictureBox1->Visible = false;
 			// 
+			// timerQuiz
+			// 
+			this->timerQuiz->Enabled = true;
+			this->timerQuiz->Interval = 1000;
+			this->timerQuiz->Tick += gcnew System::EventHandler(this, &QuizForm::timerQuiz_Tick);
+			// 
+			// labelTimer
+			// 
+			this->labelTimer->AutoSize = true;
+			this->labelTimer->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 27.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->labelTimer->Location = System::Drawing::Point(844, 3);
+			this->labelTimer->Name = L"labelTimer";
+			this->labelTimer->Size = System::Drawing::Size(118, 42);
+			this->labelTimer->TabIndex = 6;
+			this->labelTimer->Text = L"label1";
+			// 
 			// QuizForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -297,6 +328,7 @@ namespace quiz {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
 			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->labelTimer);
 			this->Controls->Add(this->buttonHome);
 			this->Controls->Add(this->panelQuiz);
 			this->Name = L"QuizForm";
@@ -304,18 +336,15 @@ namespace quiz {
 			this->Text = L"Prostate exam";
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &QuizForm::Close);
 			this->Load += gcnew System::EventHandler(this, &QuizForm::QuizForm_Load);
+			this->VisibleChanged += gcnew System::EventHandler(this, &QuizForm::VisibilityChanged);
 			this->panelQuiz->ResumeLayout(false);
 			this->panelQuiz->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
-
-	private: ref struct ss
-	{
-
-	};
 	private: enum class QuestionType
 	{
 		SingleChoice,
@@ -349,9 +378,11 @@ namespace quiz {
 				ImageName = imageName;
 			}
 
-			Question(String^ filename) 
+			Question(String^ filename, int line) 
 			{
 				StreamReader^ reader = gcnew StreamReader(filename);
+				for (int i = 0; i < line; i++)
+					reader->ReadLine();
 				Type = (QuestionType)Convert::ToInt16(reader->ReadLine());
 				QuestionText = reader->ReadLine();
 				AnswerAmount = Convert::ToInt16(reader->ReadLine());
@@ -413,8 +444,6 @@ namespace quiz {
 			{
 				for (int i = 0; i < AnswerAmount; i++)
 				{
-					singleChoiceButtons[i]->Enabled = false;
-
 					if (CorrectAnswers[i])
 						singleChoiceButtons[i]->BackColor = Color::Green;
 
@@ -431,7 +460,6 @@ namespace quiz {
 			{
 				for (int i = 0; i < AnswerAmount; i++)
 				{
-					multipleChoiceButtons[i]->Enabled = false;
 					if (UserAnswers[i])
 					{
 						multipleChoiceButtons[i]->Checked = true;
@@ -504,8 +532,10 @@ private: void LoadQuestion(int questionIndex)
 				if (question->isSaved)
 					SingleChoiceButtons[i]->Checked = question->UserAnswers[i];
 				panelAnswers->Controls->Add(SingleChoiceButtons[i]);
+				if (question->isAnswered)
+					SingleChoiceButtons[i]->Enabled = false;
 			}
-			if (question->isAnswered)
+			if (question->isAnswered && ShowCorrectAnswers)
 				question->MarkCorrectAnswers(SingleChoiceButtons);
 		}
 		else
@@ -521,12 +551,15 @@ private: void LoadQuestion(int questionIndex)
 				if (question->isSaved)
 					MultipleChoiceButtons[i]->Checked = question->UserAnswers[i];
 				panelAnswers->Controls->Add(MultipleChoiceButtons[i]);
+				if (question->isAnswered)
+					MultipleChoiceButtons[i]->Enabled = false;
 			}
-			if (question->isAnswered)
+			if (question->isAnswered && ShowCorrectAnswers)
 				question->MarkCorrectAnswers(MultipleChoiceButtons);
 		}
 		if (question->isAnswered)
 			buttonConfirm->Enabled = false;
+		labelTimer->Text = Convert::ToString(TimeLeft);
 	}
 
 	private: void randomizeQuestions()
@@ -542,17 +575,42 @@ private: void LoadQuestion(int questionIndex)
 
 	private: System::Void QuizForm_Load(System::Object^ sender, System::EventArgs^ e) 
 	{
-		array<String^>^ QuestionFiles = Directory::GetFiles("Questions");
-		Questions = gcnew array<Question^>(QuestionFiles->Length);
-		for (int i = 0; i < QuestionFiles->Length; i++)
+		if (IsFolder)
 		{
-			Questions[i] = gcnew Question(QuestionFiles[i]);
-			maxScore += Questions[i]->Score;
-			Questions[i]->randomizeAnswers();
+			array<String^>^ QuestionFiles = Directory::GetFiles(Filepath);
+			Questions = gcnew array<Question^>(QuestionFiles->Length);
+			for (int i = 0; i < QuestionFiles->Length; i++)
+			{
+				Questions[i] = gcnew Question(QuestionFiles[i], 0);
+				maxScore += Questions[i]->Score;
+				Questions[i]->randomizeAnswers();
+			}
+		}
+		else
+		{
+			int line = 1;
+			StreamReader^ reader = gcnew StreamReader(Filepath);
+			Questions = gcnew array<Question^>(Convert::ToInt32(reader->ReadLine()));
+			for (int i = 0; i < Questions->Length; i++)
+			{
+				Questions[i] = gcnew Question(Filepath, line);
+				line += 5 + Questions[i]->AnswerAmount * 2;
+				maxScore += Questions[i]->Score;
+				Questions[i]->randomizeAnswers();
+			}
 		}
 		randomizeQuestions();
 		labelMaxScore->Text = Convert::ToString(maxScore);
 		LoadQuestion(0);
+		if (!ShowCorrectAnswers)
+		{
+			labelScoreMaxQuestion->Visible = false;
+			labelScoreQuestion->Visible = false;
+			labelScore->Visible = false;
+			labelMaxScore->Visible = false;
+			label2->Visible = false;
+			label3->Visible = false;
+		}
 	}
 
 	private: void SaveAnswers()
@@ -624,11 +682,47 @@ private: void LoadQuestion(int questionIndex)
 		labelScoreQuestion->Text = Convert::ToString(question->userScore);
 		labelScore->Text = Convert::ToString(Score);
 		question->isAnswered = true;
+
 		if (question->Type == QuestionType::SingleChoice)
-			question->MarkCorrectAnswers(SingleChoiceButtons);
+			for (int i = 0; i < question->AnswerAmount; i++)
+				SingleChoiceButtons[i]->Enabled = false;
 		else
-			question->MarkCorrectAnswers(MultipleChoiceButtons);
+			for (int i = 0; i < question->AnswerAmount; i++)
+				MultipleChoiceButtons[i]->Enabled = false;
+
+		if (ShowCorrectAnswers)
+		{
+			if (question->Type == QuestionType::SingleChoice)
+				question->MarkCorrectAnswers(SingleChoiceButtons);
+			else
+				question->MarkCorrectAnswers(MultipleChoiceButtons);
+		}
 		buttonConfirm->Enabled = false;
 	}
+private: System::Void timerQuiz_Tick(System::Object^ sender, System::EventArgs^ e) 
+{
+	if (TimeLeft > 0)
+	{
+		TimeLeft--;
+		labelTimer->Text = Convert::ToString(TimeLeft);
+	}
+	else
+	{
+		timerQuiz->Stop();
+		MessageBox::Show("Time is up! Your score is " + Score + " out of " + maxScore, "gg wp", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		Application::Restart();
+	}
+}
+private: System::Void VisibilityChanged(System::Object^ sender, System::EventArgs^ e) 
+{
+	if (this->Visible)
+	{
+		timerQuiz->Start();
+	}
+	else
+	{
+		timerQuiz->Stop();
+	}
+}
 };
 }

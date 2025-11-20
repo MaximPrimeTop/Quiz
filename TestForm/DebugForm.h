@@ -2,7 +2,7 @@
 
 #include "StartForm.h"
 
-namespace quiz {
+namespace Debug {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -10,6 +10,7 @@ namespace quiz {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::IO;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -60,6 +61,9 @@ namespace quiz {
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::TextBox^ textBox3;
+	private: System::Windows::Forms::Button^ buttonBigFile;
+
+
 
 	private:
 		/// <summary>
@@ -91,6 +95,7 @@ namespace quiz {
 			this->textBoxImagENAme = (gcnew System::Windows::Forms::TextBox());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->buttonBigFile = (gcnew System::Windows::Forms::Button());
 			this->panel1->SuspendLayout();
 			this->flowLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
@@ -265,13 +270,23 @@ namespace quiz {
 			this->button2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
 			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 50));
-			this->button2->Location = System::Drawing::Point(749, 367);
+			this->button2->Location = System::Drawing::Point(749, 378);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(503, 302);
+			this->button2->Size = System::Drawing::Size(416, 291);
 			this->button2->TabIndex = 15;
 			this->button2->Text = L"GENERATE FILE";
 			this->button2->UseVisualStyleBackColor = false;
 			this->button2->Click += gcnew System::EventHandler(this, &DebugForm::button2_Click);
+			// 
+			// buttonBigFile
+			// 
+			this->buttonBigFile->Location = System::Drawing::Point(1171, 582);
+			this->buttonBigFile->Name = L"buttonBigFile";
+			this->buttonBigFile->Size = System::Drawing::Size(81, 87);
+			this->buttonBigFile->TabIndex = 16;
+			this->buttonBigFile->Text = L"generate big file";
+			this->buttonBigFile->UseVisualStyleBackColor = true;
+			this->buttonBigFile->Click += gcnew System::EventHandler(this, &DebugForm::buttonBigFile_Click);
 			// 
 			// DebugForm
 			// 
@@ -280,6 +295,7 @@ namespace quiz {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
 			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->buttonBigFile);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->textBoxImagENAme);
@@ -296,7 +312,9 @@ namespace quiz {
 			this->Controls->Add(this->textBoxQuestion);
 			this->Name = L"DebugForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-			this->Text = L"MyForm";
+			this->Text = L"debug\? more like uhhhh debuff ahahaha gottem,....         i am not sane          "
+				L"               literally listening to a cover of monitoring and this guy literal"
+				L"ly sounds like toad";
 			this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &DebugForm::Close);
 			this->panel1->ResumeLayout(false);
 			this->panel1->PerformLayout();
@@ -368,6 +386,22 @@ namespace quiz {
 		writer->WriteLine(comboBoxScore->Text);
 		writer->Close();
 	}
+
+	void GenerateBigFile()
+	{
+		array<String^>^ QuestionFiles = Directory::GetFiles("Questions", "*.txt");
+		StreamWriter^ writer = gcnew StreamWriter("Questions1TextFile\\questions.txt");
+		writer->WriteLine(QuestionFiles->Length);
+		for (int i = 0; i < QuestionFiles->Length; i++)
+		{
+			array<String^>^ lines = File::ReadAllLines(QuestionFiles[i]);
+			for (int j = 0; j < lines->Length; j++)
+			{
+				writer->WriteLine(lines[j]);
+			}
+		}
+		writer->Close();
+	}
 private: System::Void Close(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) 
 {
 	Application::Exit();
@@ -376,6 +410,11 @@ private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e
 {
 	GenerateQuestionFile();
 	button2->Text = "FILE GENERATED!";
+}
+private: System::Void buttonBigFile_Click(System::Object^ sender, System::EventArgs^ e) 
+{
+	GenerateBigFile();
+	buttonBigFile->Text = "BIG FILE GENERATED!";
 }
 };
 }

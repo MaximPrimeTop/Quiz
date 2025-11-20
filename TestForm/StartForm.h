@@ -53,6 +53,7 @@ namespace Start {
 	private: System::Windows::Forms::RadioButton^ radioButton2;
 	private: System::Windows::Forms::Button^ buttonFile;
 	private: System::Windows::Forms::Label^ labelPath;
+	private: System::Windows::Forms::Timer^ timerRainbow;
 
 
 	private: System::ComponentModel::IContainer^ components;
@@ -72,6 +73,7 @@ namespace Start {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->StartText = (gcnew System::Windows::Forms::Label());
 			this->buttonStart = (gcnew System::Windows::Forms::Button());
 			this->buttonDebug = (gcnew System::Windows::Forms::Button());
@@ -84,13 +86,14 @@ namespace Start {
 			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
 			this->buttonFile = (gcnew System::Windows::Forms::Button());
 			this->labelPath = (gcnew System::Windows::Forms::Label());
+			this->timerRainbow = (gcnew System::Windows::Forms::Timer(this->components));
 			this->SuspendLayout();
 			// 
 			// StartText
 			// 
 			this->StartText->AutoSize = true;
 			this->StartText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 40));
-			this->StartText->Location = System::Drawing::Point(12, 74);
+			this->StartText->Location = System::Drawing::Point(12, 9);
 			this->StartText->Name = L"StartText";
 			this->StartText->Size = System::Drawing::Size(1244, 63);
 			this->StartText->TabIndex = 1;
@@ -102,9 +105,9 @@ namespace Start {
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
 			this->buttonStart->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			this->buttonStart->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 60));
-			this->buttonStart->Location = System::Drawing::Point(400, 200);
+			this->buttonStart->Location = System::Drawing::Point(382, 189);
 			this->buttonStart->Name = L"buttonStart";
-			this->buttonStart->Size = System::Drawing::Size(400, 200);
+			this->buttonStart->Size = System::Drawing::Size(469, 251);
 			this->buttonStart->TabIndex = 2;
 			this->buttonStart->Text = L"Start";
 			this->buttonStart->UseVisualStyleBackColor = false;
@@ -150,7 +153,7 @@ namespace Start {
 			this->checkBoxCorrectAnswers->AutoSize = true;
 			this->checkBoxCorrectAnswers->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 27.75F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->checkBoxCorrectAnswers->Location = System::Drawing::Point(400, 423);
+			this->checkBoxCorrectAnswers->Location = System::Drawing::Point(860, 276);
 			this->checkBoxCorrectAnswers->Name = L"checkBoxCorrectAnswers";
 			this->checkBoxCorrectAnswers->Size = System::Drawing::Size(405, 46);
 			this->checkBoxCorrectAnswers->TabIndex = 20;
@@ -160,6 +163,7 @@ namespace Start {
 			// openFileDialog1
 			// 
 			this->openFileDialog1->FileName = L"openFileDialog1";
+			this->openFileDialog1->Filter = L"Text files|*.txt|All files|*.*";
 			// 
 			// radioButton1
 			// 
@@ -167,7 +171,7 @@ namespace Start {
 			this->radioButton1->Checked = true;
 			this->radioButton1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 21.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->radioButton1->Location = System::Drawing::Point(23, 176);
+			this->radioButton1->Location = System::Drawing::Point(12, 294);
 			this->radioButton1->Name = L"radioButton1";
 			this->radioButton1->Size = System::Drawing::Size(361, 37);
 			this->radioButton1->TabIndex = 21;
@@ -180,7 +184,7 @@ namespace Start {
 			this->radioButton2->AutoSize = true;
 			this->radioButton2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 21.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->radioButton2->Location = System::Drawing::Point(23, 219);
+			this->radioButton2->Location = System::Drawing::Point(12, 337);
 			this->radioButton2->Name = L"radioButton2";
 			this->radioButton2->Size = System::Drawing::Size(326, 37);
 			this->radioButton2->TabIndex = 22;
@@ -194,7 +198,7 @@ namespace Start {
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
 			this->buttonFile->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 20.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->buttonFile->Location = System::Drawing::Point(23, 263);
+			this->buttonFile->Location = System::Drawing::Point(23, 379);
 			this->buttonFile->Name = L"buttonFile";
 			this->buttonFile->Size = System::Drawing::Size(244, 100);
 			this->buttonFile->TabIndex = 23;
@@ -207,11 +211,17 @@ namespace Start {
 			this->labelPath->AutoSize = true;
 			this->labelPath->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->labelPath->Location = System::Drawing::Point(12, 482);
+			this->labelPath->Location = System::Drawing::Point(18, 482);
 			this->labelPath->Name = L"labelPath";
-			this->labelPath->Size = System::Drawing::Size(698, 25);
+			this->labelPath->Size = System::Drawing::Size(656, 25);
 			this->labelPath->TabIndex = 24;
-			this->labelPath->Text = L"Path: C:\\\\Users\\\\MaximPrime\\\\source\\\\repos\\\\Quiz\\\\TestForm\\\\Questions";
+			this->labelPath->Text = L"Path: C:\\Users\\MaximPrime\\source\\repos\\Quiz\\TestForm\\Questions";
+			// 
+			// timerRainbow
+			// 
+			this->timerRainbow->Enabled = true;
+			this->timerRainbow->Interval = 20;
+			this->timerRainbow->Tick += gcnew System::EventHandler(this, &StartForm::timerRainbow_Tick);
 			// 
 			// StartForm
 			// 
@@ -287,6 +297,16 @@ private: System::Void buttonFile_Click(System::Object^ sender, System::EventArgs
 			labelPath->Text = "Path: " + openFileDialog1->FileName;
 		}
 	}
+}
+	   private: int hue = 0;
+private: System::Void timerRainbow_Tick(System::Object^ sender, System::EventArgs^ e) 
+{
+	hue = (hue + 1) % 360;
+	Color color = Color::FromArgb(255, 
+		(int)(255 * (1 + Math::Sin((hue + 0) * Math::PI / 180)) / 2),
+		(int)(255 * (1 + Math::Sin((hue + 120) * Math::PI / 180)) / 2),
+		(int)(255 * (1 + Math::Sin((hue + 240) * Math::PI / 180)) / 2));
+	StartText->ForeColor = color;
 }
 };
 }

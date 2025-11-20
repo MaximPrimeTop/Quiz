@@ -23,6 +23,7 @@ namespace Quiz {
 		   int TimeLeft;
 		   bool ShowCorrectAnswers;
 		   bool IsFolder;
+	private: System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
 		   String^ Filepath;
 	public:
 		
@@ -112,6 +113,7 @@ namespace Quiz {
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->timerQuiz = (gcnew System::Windows::Forms::Timer(this->components));
 			this->labelTimer = (gcnew System::Windows::Forms::Label());
+			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->panelQuiz->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
@@ -320,6 +322,13 @@ namespace Quiz {
 			this->labelTimer->Size = System::Drawing::Size(118, 42);
 			this->labelTimer->TabIndex = 6;
 			this->labelTimer->Text = L"label1";
+			// 
+			// saveFileDialog1
+			// 
+			this->saveFileDialog1->DefaultExt = L"txt";
+			this->saveFileDialog1->FileName = L"result";
+			this->saveFileDialog1->Filter = L"Text files|*.txt|All files|*.*";
+			this->saveFileDialog1->Title = L"SAVE";
 			// 
 			// QuizForm
 			// 
@@ -710,6 +719,17 @@ private: System::Void timerQuiz_Tick(System::Object^ sender, System::EventArgs^ 
 	{
 		timerQuiz->Stop();
 		MessageBox::Show("Time is up! Your score is " + Score + " out of " + maxScore, "gg wp", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		if (MessageBox::Show("Do you want to save your result to a file?", "de file savre", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
+		{
+			if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			{
+				StreamWriter^ writer = gcnew StreamWriter(saveFileDialog1->FileName);
+				writer->WriteLine("Score: " + Score + " out of " + maxScore);
+				writer->WriteLine();
+				// uh kinda lazy rn also power gonna turn off soon so rip
+			}
+		}
+
 		Application::Restart();
 	}
 }

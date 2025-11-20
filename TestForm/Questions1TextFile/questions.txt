@@ -1,15 +1,71 @@
-10
+16
 0
-In the question about the Whip in Vampire Survivors how many answers were there?
+(feat. dad) How much is the fish?
 4
-5
-6
+na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na
+$15
+$25
+$20
+True
+False
+False
+False
+
+1
+0
+Which programming language is the best?
+3
+C++
+C#
+Pascal
+False
+True
+False
+
+1
+1
+Which elements are present in the game Crosscode
 7
-8
+Heat
+Water
+Cold
+Shock
+Wave
+Earth
+Air
+True
+False
+True
+True
+True
+False
+False
+crosscode.jpg
+4
+0
+(feat. dad) How many brothers does Mario have in Super Mario Bros-3 
+3
+1
+2
+3
+True
+False
+False
+
+1
+0
+Which one of the girls in Doki Doki Literature Club hangs herself
+5
+Yuri
+Natsuki
+Monika
+Sayori
+You
 False
 False
 False
 True
+False
 
 1
 0
@@ -38,6 +94,42 @@ True
 False
 
 2
+1
+Which games are considered to be rogue-likes?
+6
+Terraria
+Slay the Spire
+Bastion
+Don't Starve Together
+Hollow Knight
+Your Only Move Is Hustle
+False
+True
+False
+True
+False
+False
+
+2
+1
+In Plants vs Zombies which plants are considered to be instas (deal a lot of damage and dissapear immediately after)
+7
+Cherry bomb
+Spikeweed
+Garlic
+Jalapeno
+Cactus
+Squash
+Doom-shroom
+True
+False
+False
+True
+False
+True
+True
+
+4
 0
 In Vampire Survivors what do you need to evolve the Whip into the Bloody Tear?
 8
@@ -90,30 +182,6 @@ False
 purple_flower.jpg
 1
 0
-(feat. dad) How much is the fish?
-4
-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na
-$15
-$25
-$20
-True
-False
-False
-False
-
-1
-0
-Which programming language is the best?
-3
-C++
-C#
-Pascal
-False
-True
-False
-
-1
-0
 In Hollow Knight Silksong you fight the character Lace multiple times through your playthrough. How many times exactly?
 4
 2
@@ -124,16 +192,48 @@ False
 True
 False
 False
-lace.jpg
+lace.png
 1
-0
-(feat. dad) How many brothers does Mario have in Super Mario Bros-3 
-3
 1
-2
-3
+Which of these are games made by Daniel Mullins
+6
+Inscryption
+The Hex
+Pony Island
+Rain World
+Rusted Moss
+Bastion
+True
+True
 True
 False
 False
+False
 
+3
+0
+In the question about the Whip in Vampire Survivors how many answers were there?
+4
+5
+6
+7
+8
+False
+False
+False
+True
+
+1
+0
+What is the name of the main character in Oneshot
+4
+Niko
+Clover
+Frisk
+Lope
+True
+False
+False
+False
+niko.png
 1

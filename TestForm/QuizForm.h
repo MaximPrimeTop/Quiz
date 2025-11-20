@@ -24,6 +24,8 @@ namespace Quiz {
 		   bool ShowCorrectAnswers;
 		   bool IsFolder;
 	private: System::Windows::Forms::SaveFileDialog^ saveFileDialog1;
+	private: System::Windows::Forms::Label^ labelNum;
+
 		   String^ Filepath;
 	public:
 		
@@ -114,6 +116,7 @@ namespace Quiz {
 			this->timerQuiz = (gcnew System::Windows::Forms::Timer(this->components));
 			this->labelTimer = (gcnew System::Windows::Forms::Label());
 			this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->labelNum = (gcnew System::Windows::Forms::Label());
 			this->panelQuiz->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
@@ -203,6 +206,7 @@ namespace Quiz {
 			this->panelQuiz->Controls->Add(this->buttonBack);
 			this->panelQuiz->Controls->Add(this->buttonConfirm);
 			this->panelQuiz->Controls->Add(this->buttonNext);
+			this->panelQuiz->Controls->Add(this->labelTimer);
 			this->panelQuiz->Location = System::Drawing::Point(10, 50);
 			this->panelQuiz->Name = L"panelQuiz";
 			this->panelQuiz->Size = System::Drawing::Size(1240, 600);
@@ -212,7 +216,7 @@ namespace Quiz {
 			// 
 			this->labelScoreQuestion->AutoSize = true;
 			this->labelScoreQuestion->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
-			this->labelScoreQuestion->Location = System::Drawing::Point(829, 389);
+			this->labelScoreQuestion->Location = System::Drawing::Point(292, 512);
 			this->labelScoreQuestion->MaximumSize = System::Drawing::Size(100, 40);
 			this->labelScoreQuestion->MinimumSize = System::Drawing::Size(100, 40);
 			this->labelScoreQuestion->Name = L"labelScoreQuestion";
@@ -225,7 +229,7 @@ namespace Quiz {
 			// 
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
-			this->label2->Location = System::Drawing::Point(834, 399);
+			this->label2->Location = System::Drawing::Point(297, 522);
 			this->label2->MaximumSize = System::Drawing::Size(100, 40);
 			this->label2->MinimumSize = System::Drawing::Size(100, 40);
 			this->label2->Name = L"label2";
@@ -237,7 +241,7 @@ namespace Quiz {
 			// 
 			this->labelScoreMaxQuestion->AutoSize = true;
 			this->labelScoreMaxQuestion->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
-			this->labelScoreMaxQuestion->Location = System::Drawing::Point(829, 429);
+			this->labelScoreMaxQuestion->Location = System::Drawing::Point(292, 552);
 			this->labelScoreMaxQuestion->MaximumSize = System::Drawing::Size(100, 40);
 			this->labelScoreMaxQuestion->MinimumSize = System::Drawing::Size(100, 40);
 			this->labelScoreMaxQuestion->Name = L"labelScoreMaxQuestion";
@@ -250,7 +254,7 @@ namespace Quiz {
 			// 
 			this->labelScore->AutoSize = true;
 			this->labelScore->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
-			this->labelScore->Location = System::Drawing::Point(1108, 389);
+			this->labelScore->Location = System::Drawing::Point(834, 512);
 			this->labelScore->MaximumSize = System::Drawing::Size(100, 40);
 			this->labelScore->MinimumSize = System::Drawing::Size(100, 40);
 			this->labelScore->Name = L"labelScore";
@@ -263,7 +267,7 @@ namespace Quiz {
 			// 
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
-			this->label3->Location = System::Drawing::Point(1113, 399);
+			this->label3->Location = System::Drawing::Point(839, 522);
 			this->label3->MaximumSize = System::Drawing::Size(100, 40);
 			this->label3->MinimumSize = System::Drawing::Size(100, 40);
 			this->label3->Name = L"label3";
@@ -275,7 +279,7 @@ namespace Quiz {
 			// 
 			this->labelMaxScore->AutoSize = true;
 			this->labelMaxScore->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 20));
-			this->labelMaxScore->Location = System::Drawing::Point(1108, 429);
+			this->labelMaxScore->Location = System::Drawing::Point(834, 552);
 			this->labelMaxScore->MaximumSize = System::Drawing::Size(100, 40);
 			this->labelMaxScore->MinimumSize = System::Drawing::Size(100, 40);
 			this->labelMaxScore->Name = L"labelMaxScore";
@@ -315,11 +319,11 @@ namespace Quiz {
 			// labelTimer
 			// 
 			this->labelTimer->AutoSize = true;
-			this->labelTimer->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 27.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->labelTimer->Font = (gcnew System::Drawing::Font(L"Papyrus", 72, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->labelTimer->Location = System::Drawing::Point(844, 3);
+			this->labelTimer->Location = System::Drawing::Point(886, 362);
 			this->labelTimer->Name = L"labelTimer";
-			this->labelTimer->Size = System::Drawing::Size(118, 42);
+			this->labelTimer->Size = System::Drawing::Size(310, 151);
 			this->labelTimer->TabIndex = 6;
 			this->labelTimer->Text = L"label1";
 			// 
@@ -330,6 +334,17 @@ namespace Quiz {
 			this->saveFileDialog1->Filter = L"Text files|*.txt|All files|*.*";
 			this->saveFileDialog1->Title = L"SAVE";
 			// 
+			// labelNum
+			// 
+			this->labelNum->AutoSize = true;
+			this->labelNum->Font = (gcnew System::Drawing::Font(L"Comic Sans MS", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->labelNum->Location = System::Drawing::Point(88, 0);
+			this->labelNum->Name = L"labelNum";
+			this->labelNum->Size = System::Drawing::Size(369, 45);
+			this->labelNum->TabIndex = 7;
+			this->labelNum->Text = L"quesiton numero cinque";
+			// 
 			// QuizForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -337,7 +352,7 @@ namespace Quiz {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(192)));
 			this->ClientSize = System::Drawing::Size(1264, 681);
-			this->Controls->Add(this->labelTimer);
+			this->Controls->Add(this->labelNum);
 			this->Controls->Add(this->buttonHome);
 			this->Controls->Add(this->panelQuiz);
 			this->Name = L"QuizForm";
@@ -568,7 +583,7 @@ private: void LoadQuestion(int questionIndex)
 		}
 		if (question->isAnswered)
 			buttonConfirm->Enabled = false;
-		labelTimer->Text = Convert::ToString(TimeLeft);
+		labelNum->Text = "Question " + Convert::ToString(questionIndex + 1) + " of " + Convert::ToString(Questions->Length);
 	}
 
 	private: void randomizeQuestions()
@@ -620,6 +635,7 @@ private: void LoadQuestion(int questionIndex)
 			label2->Visible = false;
 			label3->Visible = false;
 		}
+		labelTimer->Text = Convert::ToString(TimeLeft);
 	}
 
 	private: void SaveAnswers()

@@ -1,0 +1,17 @@
+1
+Which games are considered to be rogue-likes?
+6
+Terraria
+Slay the Spire
+Bastion
+Don't Starve Together
+Hollow Knight
+Your Only Move Is Hustle
+False
+True
+False
+True
+False
+False
+
+2

@@ -1,0 +1,15 @@
+0
+Which one of the girls in Doki Doki Literature Club hangs herself
+5
+Yuri
+Natsuki
+Monika
+Sayori
+You
+False
+False
+False
+True
+False
+
+1

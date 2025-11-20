@@ -198,7 +198,9 @@ namespace Debug {
 			// 
 			// flowLayoutPanel1
 			// 
+			this->flowLayoutPanel1->AutoScroll = true;
 			this->flowLayoutPanel1->Controls->Add(this->textBox3);
+			this->flowLayoutPanel1->FlowDirection = System::Windows::Forms::FlowDirection::TopDown;
 			this->flowLayoutPanel1->Location = System::Drawing::Point(20, 221);
 			this->flowLayoutPanel1->Name = L"flowLayoutPanel1";
 			this->flowLayoutPanel1->Size = System::Drawing::Size(723, 448);
@@ -369,7 +371,7 @@ namespace Debug {
 		for (int i = 0; i < tempFiles->Length; i++)
 			File::Move(tempFiles[i], Path::Combine("Questions", "question" + (i + 1) + ".txt"));
 		Directory::Delete(tempFolder);
-		StreamWriter^ writer = gcnew StreamWriter("Questions\\" + "question" + QuestionFiles->Length + ".txt");
+		StreamWriter^ writer = gcnew StreamWriter("Questions\\" + "question" + (QuestionFiles->Length + 1) + ".txt");
 		writer->WriteLine((int)radioButtonMultiple->Checked);
 		writer->WriteLine(textBoxQuestion->Text);
 		writer->WriteLine(answerAmount);

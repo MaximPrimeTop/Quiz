@@ -1,11 +1,17 @@
-0
-Which programming language is the best?
-3
-C++
-C#
-Pascal
-False
+1
+Which of these are games made by Daniel Mullins
+6
+Inscryption
+The Hex
+Pony Island
+Rain World
+Rusted Moss
+Bastion
+True
+True
 True
 False
+False
+False
 
-1
+3

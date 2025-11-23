@@ -615,6 +615,7 @@ private: void LoadQuestion(int questionIndex)
 			int line = 1;
 			StreamReader^ reader = gcnew StreamReader(Filepath);
 			Questions = gcnew array<Question^>(Convert::ToInt32(reader->ReadLine()));
+			reader->Close();
 			for (int i = 0; i < Questions->Length; i++)
 			{
 				Questions[i] = gcnew Question(Filepath, line);

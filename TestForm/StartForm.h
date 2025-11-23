@@ -2,6 +2,8 @@
 
 #include "QuizForm.h"
 #include "DebugForm.h"
+#include <Windows.h>
+
 namespace Start {
 
 	using namespace System;
@@ -12,6 +14,7 @@ namespace Start {
 	using namespace System::Drawing;
 	using namespace Debug;
 	using namespace Quiz;
+	using namespace System::Media;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -54,6 +57,8 @@ namespace Start {
 	private: System::Windows::Forms::Button^ buttonFile;
 	private: System::Windows::Forms::Label^ labelPath;
 	private: System::Windows::Forms::Timer^ timerRainbow;
+	private: System::Windows::Forms::Timer^ timerDVD;
+
 
 
 	private: System::ComponentModel::IContainer^ components;
@@ -87,17 +92,21 @@ namespace Start {
 			this->buttonFile = (gcnew System::Windows::Forms::Button());
 			this->labelPath = (gcnew System::Windows::Forms::Label());
 			this->timerRainbow = (gcnew System::Windows::Forms::Timer(this->components));
+			this->timerDVD = (gcnew System::Windows::Forms::Timer(this->components));
 			this->SuspendLayout();
 			// 
 			// StartText
 			// 
 			this->StartText->AutoSize = true;
+			this->StartText->BackColor = System::Drawing::Color::Transparent;
+			this->StartText->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->StartText->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 40));
 			this->StartText->Location = System::Drawing::Point(12, 9);
 			this->StartText->Name = L"StartText";
 			this->StartText->Size = System::Drawing::Size(1244, 63);
 			this->StartText->TabIndex = 1;
 			this->StartText->Text = L"MaximPrime\'s very epic and cool quiz form !!111!!1";
+			this->StartText->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &StartForm::StartText_MouseClick);
 			// 
 			// buttonStart
 			// 
@@ -223,9 +232,15 @@ namespace Start {
 			this->timerRainbow->Interval = 20;
 			this->timerRainbow->Tick += gcnew System::EventHandler(this, &StartForm::timerRainbow_Tick);
 			// 
+			// timerDVD
+			// 
+			this->timerDVD->Interval = 10;
+			this->timerDVD->Tick += gcnew System::EventHandler(this, &StartForm::timerDVD_Tick);
+			// 
 			// StartForm
 			// 
 			this->ClientSize = System::Drawing::Size(1264, 681);
+			this->Controls->Add(this->StartText);
 			this->Controls->Add(this->labelPath);
 			this->Controls->Add(this->buttonFile);
 			this->Controls->Add(this->radioButton2);
@@ -235,10 +250,10 @@ namespace Start {
 			this->Controls->Add(this->labelTimer);
 			this->Controls->Add(this->buttonDebug);
 			this->Controls->Add(this->buttonStart);
-			this->Controls->Add(this->StartText);
 			this->Name = L"StartForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"da main menu or some shi";
+			this->Load += gcnew System::EventHandler(this, &StartForm::StartForm_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -307,6 +322,49 @@ private: System::Void timerRainbow_Tick(System::Object^ sender, System::EventArg
 		(int)(255 * (1 + Math::Sin((hue + 120) * Math::PI / 180)) / 2),
 		(int)(255 * (1 + Math::Sin((hue + 240) * Math::PI / 180)) / 2));
 	StartText->ForeColor = color;
+}
+private: System::Void StartForm_Load(System::Object^ sender, System::EventArgs^ e) 
+{
+
+}
+private: System::Void StartText_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) 
+{
+	if (timerDVD->Enabled)
+	{
+		timerDVD->Enabled = false;
+		ToggleStuff(true);
+		StartText->Location = Point(12, 9);
+		StartText->Text = "MaximPrime's very epic and cool quiz form !!111!!1";
+	}
+	else
+	{
+		StartText->Text = "ah you found the dvd easter egg";
+		timerDVD->Enabled = true;
+		ToggleStuff(false);
+	}
+
+}
+
+	private: void ToggleStuff(bool enabled)
+	{
+		buttonStart->Visible = enabled;
+		buttonDebug->Visible = enabled;
+		checkBoxCorrectAnswers->Visible = enabled;
+		buttonFile->Visible = enabled;
+		radioButton1->Visible = enabled;
+		radioButton2->Visible = enabled;
+		labelPath->Visible = enabled;
+		labelTimer->Visible = enabled;
+		textBoxTimer->Visible = enabled;
+	}
+private: int xSpeed = 10, ySpeed = 10;
+private: System::Void timerDVD_Tick(System::Object^ sender, System::EventArgs^ e) 
+{
+	StartText->Location = Point(StartText->Location.X + xSpeed, StartText->Location.Y + ySpeed);
+	if (StartText->Location.X <= 0 || StartText->Location.X + StartText->Size.Width >= this->Width)
+		xSpeed = -xSpeed;
+	if (StartText->Location.Y <= 0 || StartText->Location.Y + StartText->Size.Height >= this->Height - 40)
+		ySpeed = -ySpeed;
 }
 };
 }

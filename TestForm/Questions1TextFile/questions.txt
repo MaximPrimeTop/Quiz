@@ -40,7 +40,7 @@ True
 True
 False
 False
-crosscode.jpg
+crosscode.png
 4
 0
 (feat. dad) How many brothers does Mario have in Super Mario Bros-3 

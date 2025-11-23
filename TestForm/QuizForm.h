@@ -388,7 +388,6 @@ namespace Quiz {
 			bool isSaved = false;
 			array<bool>^ UserAnswers;
 			String^ ImageName = "";
-		private:
 			array<bool>^ CorrectAnswers;
 		public:
 			Question(QuestionType type, String^ questionText, array<String^>^ answers, int answerAmount, array<bool>^ correctAnswers, String^ imageName, int score)
@@ -398,6 +397,9 @@ namespace Quiz {
 				Answers = answers;
 				AnswerAmount = answerAmount;
 				CorrectAnswers = correctAnswers;
+				UserAnswers = gcnew array<bool>(answerAmount);
+				for (int i = 0; i < answerAmount; i++)
+					UserAnswers[i] = false;
 				Score = score;
 				ImageName = imageName;
 			}
@@ -418,6 +420,10 @@ namespace Quiz {
 					CorrectAnswers[i] = Convert::ToBoolean(reader->ReadLine());
 				ImageName = reader->ReadLine();
 				Score = Convert::ToInt16(reader->ReadLine());
+				reader->Close();
+				UserAnswers = gcnew array<bool>(AnswerAmount);
+				for (int i = 0; i < AnswerAmount; i++)
+					UserAnswers[i] = false;
 			}
 
 			void QuestionToFile(String^ filename)
@@ -445,11 +451,16 @@ namespace Quiz {
 						sumAnswer++;
 						sumCorrect++;
 					}
+					else if (answers[i])
+						sumAnswer--;
 					else if (CorrectAnswers[i])
 						sumCorrect++;
 				}
-
-				return (int)(Score * sumAnswer / sumCorrect);
+				int finalScore = (int)(Score * sumAnswer / sumCorrect);
+				isAnswered = true;
+				if (finalScore < 0)
+					return 0;
+				return finalScore;
 			}
 
 			void SaveMarkedAnswers(array<bool>^ answers)
@@ -515,6 +526,7 @@ namespace Quiz {
 		array<Question^>^ Questions;
 		int CurrentQuestion = 0;
 		int QuestionAmount;
+		int AnsweredQuestions = 0;
 		array<RadioButton^>^ SingleChoiceButtons;
 		array<CheckBox^>^ MultipleChoiceButtons;
 		int Score = 0, maxScore = 0;
@@ -707,7 +719,6 @@ private: void LoadQuestion(int questionIndex)
 		Score += question->userScore;
 		labelScoreQuestion->Text = Convert::ToString(question->userScore);
 		labelScore->Text = Convert::ToString(Score);
-		question->isAnswered = true;
 
 		if (question->Type == QuestionType::SingleChoice)
 			for (int i = 0; i < question->AnswerAmount; i++)
@@ -724,7 +735,71 @@ private: void LoadQuestion(int questionIndex)
 				question->MarkCorrectAnswers(MultipleChoiceButtons);
 		}
 		buttonConfirm->Enabled = false;
+		AnsweredQuestions++;
+		if (AnsweredQuestions == Questions->Length)
+			QuizEnd(false);
 	}
+
+	private: void WriteResultFile()
+	{
+		StreamWriter^ writer = gcnew StreamWriter(saveFileDialog1->FileName);
+		writer->WriteLine("Score: " + Score + " out of " + maxScore);
+		writer->WriteLine("Time left: " + TimeLeft);
+		for (int i = 0; i < Questions->Length; i++)
+		{
+			writer->WriteLine();
+			writer->WriteLine("Question " + (i + 1) + ": " + Questions[i]->QuestionText);
+			writer->WriteLine("Question score: " + Questions[i]->userScore + " out of " + Questions[i]->Score);
+			if (Questions[i]->isAnswered)
+			{
+				writer->WriteLine("Your answers: ");
+				for (int j = 0; j < Questions[i]->AnswerAmount; j++)
+					if (Questions[i]->UserAnswers[j])
+						writer->WriteLine("    " + Questions[i]->Answers[j]);
+				writer->WriteLine("Your correct answers:");
+				for (int j = 0; j < Questions[i]->AnswerAmount; j++)
+					if (Questions[i]->UserAnswers[j] && Questions[i]->CorrectAnswers[j])
+						writer->WriteLine("    " + Questions[i]->Answers[j]);
+			}
+			else
+				writer->WriteLine("you didnt answer it idiot");
+		}
+		writer->Close();
+	}
+
+	private: void QuizEnd(bool isTime)
+	{
+		timerQuiz->Stop();
+		for (int i = 0; i < Questions->Length; i++)
+		{
+			if (Questions[i]->isSaved && !Questions[i]->isAnswered)
+			{
+				Questions[i]->userScore = Questions[i]->CheckAnswers(Questions[i]->UserAnswers);
+				Score += Questions[i]->userScore;
+			}
+		}
+		if (ShowCorrectAnswers)
+		{
+			if (Questions[CurrentQuestion]->Type == QuestionType::SingleChoice)
+				Questions[CurrentQuestion]->MarkCorrectAnswers(SingleChoiceButtons);
+			else
+				Questions[CurrentQuestion]->MarkCorrectAnswers(MultipleChoiceButtons);
+		}
+		if (isTime)
+			MessageBox::Show("Time is up! Your score is " + Score + " out of " + maxScore, "gg wp", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		else
+			MessageBox::Show("Quiz finished! Your score is " + Score + " out of " + maxScore, "gg wp", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		
+		if (MessageBox::Show("Do you want to save your result to a file?", "de file savre", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
+		{
+			if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			{
+				WriteResultFile();
+			}
+		}
+		Application::Restart();
+	}
+
 private: System::Void timerQuiz_Tick(System::Object^ sender, System::EventArgs^ e) 
 {
 	if (TimeLeft > 0)
@@ -733,22 +808,7 @@ private: System::Void timerQuiz_Tick(System::Object^ sender, System::EventArgs^ 
 		labelTimer->Text = Convert::ToString(TimeLeft);
 	}
 	else
-	{
-		timerQuiz->Stop();
-		MessageBox::Show("Time is up! Your score is " + Score + " out of " + maxScore, "gg wp", MessageBoxButtons::OK, MessageBoxIcon::Information);
-		if (MessageBox::Show("Do you want to save your result to a file?", "de file savre", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
-		{
-			if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-			{
-				StreamWriter^ writer = gcnew StreamWriter(saveFileDialog1->FileName);
-				writer->WriteLine("Score: " + Score + " out of " + maxScore);
-				writer->WriteLine();
-				// uh kinda lazy rn also power gonna turn off soon so rip
-			}
-		}
-
-		Application::Restart();
-	}
+		QuizEnd(true);
 }
 private: System::Void VisibilityChanged(System::Object^ sender, System::EventArgs^ e) 
 {

@@ -1,0 +1,14 @@
+1
+0
+(feat. dad) How much is the fish?
+4
+na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na-na
+$15
+$25
+$20
+True
+False
+False
+False
+
+1

@@ -267,6 +267,11 @@ namespace Start {
 	public: static bool isStarted = false;
 	private: System::Void buttonStart_Click(System::Object^ sender, System::EventArgs^ e) 
 	{
+		if (!isFolder && !File::Exists(QuestionsPath) || isFolder && !Directory::Exists(QuestionsPath))
+		{
+			labelPath->Text = "SELECT A VALID PATH";
+			return;
+		}
 		int timer;
 		if (textBoxTimer->Text == "" || !int::TryParse(textBoxTimer->Text, timer))
 			return;
